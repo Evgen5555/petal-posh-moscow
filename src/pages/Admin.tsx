@@ -22,6 +22,9 @@ const Admin = () => {
   const { session, loading, signOut } = useAuth();
   const { products, orders, addProduct, updateProduct, deleteProduct, updateOrderStatus } = useStore();
   const [tab, setTab] = useState<"orders" | "products">("orders");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [form, setForm] = useState({ name: "", price: "", category: "", description: "", composition: "", image: "" });
 
   if (loading) {
     return (
@@ -36,9 +39,6 @@ const Admin = () => {
   if (!session) {
     return <Navigate to="/admin/login" replace />;
   }
-  const [editingId, setEditingId] = useState<string | null>(null);
-  const [showAddForm, setShowAddForm] = useState(false);
-  const [form, setForm] = useState({ name: "", price: "", category: "", description: "", composition: "", image: "" });
 
   const handleAddProduct = (e: React.FormEvent) => {
     e.preventDefault();
