@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { useStore } from "@/context/StoreContext";
 import type { Order } from "@/context/StoreContext";
-import { Package, ShoppingBag, Trash2, Edit, Plus, X } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { Package, ShoppingBag, Trash2, Edit, Plus, X, LogOut } from "lucide-react";
 import { toast } from "sonner";
-
 const statusLabels: Record<Order["status"], string> = {
   new: "Новый",
   processing: "В работе",
@@ -18,11 +19,26 @@ const statusColors: Record<Order["status"], string> = {
 };
 
 const Admin = () => {
+  const { session, loading, signOut } = useAuth();
   const { products, orders, addProduct, updateProduct, deleteProduct, updateOrderStatus } = useStore();
   const [tab, setTab] = useState<"orders" | "products">("orders");
   const [editingId, setEditingId] = useState<string | null>(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [form, setForm] = useState({ name: "", price: "", category: "", description: "", composition: "", image: "" });
+
+  if (loading) {
+    return (
+      <Layout>
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <p className="font-body text-muted-foreground">Загрузка...</p>
+        </div>
+      </Layout>
+    );
+  }
+
+  if (!session) {
+    return <Navigate to="/admin/login" replace />;
+  }
 
   const handleAddProduct = (e: React.FormEvent) => {
     e.preventDefault();
@@ -65,7 +81,15 @@ const Admin = () => {
     <Layout>
       <section className="py-12">
         <div className="container">
-          <h1 className="mb-8 font-heading text-3xl font-bold text-foreground">Админ-панель</h1>
+          <div className="mb-8 flex items-center justify-between">
+            <h1 className="font-heading text-3xl font-bold text-foreground">Админ-панель</h1>
+            <button
+              onClick={() => { signOut(); toast.success("Вы вышли из системы"); }}
+              className="flex items-center gap-2 rounded-full bg-accent px-4 py-2 font-body text-sm text-accent-foreground hover:bg-accent/80"
+            >
+              <LogOut className="h-4 w-4" /> Выйти
+            </button>
+          </div>
 
           <div className="mb-6 flex gap-2">
             <button
