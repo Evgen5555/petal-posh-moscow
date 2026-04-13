@@ -1,11 +1,20 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ShoppingBag, Minus, Plus, Truck, CreditCard, Clock } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Minus, Plus, Truck, CreditCard, Clock, Star, Package } from "lucide-react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import { useStore } from "@/context/StoreContext";
 import { useCart } from "@/context/CartContext";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import { reviews } from "@/data/reviews";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+
+const packagingOptions = [
+  { id: "standard", name: "Стандартная", price: 0, desc: "Плёнка + лента" },
+  { id: "kraft", name: "Крафт", price: 300, desc: "Крафт-бумага + атласная лента" },
+  { id: "box", name: "Шляпная коробка", price: 800, desc: "Бархатная коробка" },
+  { id: "basket", name: "Корзина", price: 600, desc: "Плетёная корзина" },
+];
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -13,6 +22,9 @@ const ProductDetail = () => {
   const { addItem } = useCart();
   const product = products.find((p) => p.id === id);
   const [qty, setQty] = useState(1);
+  const [selectedPkg, setSelectedPkg] = useState("standard");
+
+  const productReviews = reviews.filter((r) => r.productId === id);
 
   if (!product) {
     return (
@@ -26,6 +38,8 @@ const ProductDetail = () => {
       </Layout>
     );
   }
+
+  const pkgPrice = packagingOptions.find((p) => p.id === selectedPkg)?.price || 0;
 
   const handleAdd = () => {
     for (let i = 0; i < qty; i++) addItem(product);
@@ -72,8 +86,35 @@ const ProductDetail = () => {
                 <h4 className="font-heading text-sm font-semibold text-foreground">Состав</h4>
                 <p className="mt-1 font-body text-sm text-muted-foreground">{product.composition}</p>
               </div>
+
+              {/* Packaging Selection */}
+              <div>
+                <h4 className="mb-3 flex items-center gap-2 font-heading text-sm font-semibold text-foreground">
+                  <Package className="h-4 w-4 text-primary" /> Упаковка
+                </h4>
+                <div className="grid grid-cols-2 gap-2">
+                  {packagingOptions.map((pkg) => (
+                    <button
+                      key={pkg.id}
+                      onClick={() => setSelectedPkg(pkg.id)}
+                      className={`rounded-xl border p-3 text-left transition-all ${
+                        selectedPkg === pkg.id
+                          ? "border-primary bg-primary/5 ring-1 ring-primary"
+                          : "border-border hover:border-primary/40"
+                      }`}
+                    >
+                      <p className="font-body text-sm font-medium text-foreground">{pkg.name}</p>
+                      <p className="font-body text-xs text-muted-foreground">{pkg.desc}</p>
+                      <p className="mt-1 font-body text-xs font-semibold text-primary">
+                        {pkg.price === 0 ? "Бесплатно" : `+${pkg.price} ₽`}
+                      </p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <p className="font-heading text-3xl font-bold text-primary">
-                {product.price.toLocaleString("ru-RU")} ₽
+                {(product.price + pkgPrice).toLocaleString("ru-RU")} ₽
               </p>
 
               <div className="flex items-center gap-4">
@@ -95,31 +136,79 @@ const ProductDetail = () => {
               </div>
 
               {/* Delivery & Payment Info */}
-              <div className="space-y-3 rounded-xl border border-border bg-accent/30 p-5">
-                <div className="flex items-start gap-3">
-                  <Truck className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="font-heading text-sm font-semibold text-foreground">Доставка по Москве</p>
-                    <p className="font-body text-xs text-muted-foreground">Бесплатно от 5 000 ₽ · от 500 ₽ при заказе меньше</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <Clock className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="font-heading text-sm font-semibold text-foreground">Время доставки</p>
-                    <p className="font-body text-xs text-muted-foreground">Сегодня при заказе до 15:00 · или в выбранную дату</p>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <CreditCard className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
-                  <div>
-                    <p className="font-heading text-sm font-semibold text-foreground">Оплата</p>
-                    <p className="font-body text-xs text-muted-foreground">Наличные, карта, перевод · оплата при получении</p>
-                  </div>
-                </div>
-              </div>
+              <Accordion type="single" collapsible defaultValue="delivery">
+                <AccordionItem value="delivery">
+                  <AccordionTrigger className="font-heading text-sm font-semibold">
+                    <span className="flex items-center gap-2"><Truck className="h-4 w-4 text-primary" /> Доставка и оплата</span>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <div className="space-y-3">
+                      <div className="flex items-start gap-3">
+                        <Truck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        <div>
+                          <p className="font-heading text-sm font-semibold text-foreground">Доставка по Москве</p>
+                          <p className="font-body text-xs text-muted-foreground">Бесплатно от 5 000 ₽ · от 500 ₽ при заказе меньше</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <Clock className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        <div>
+                          <p className="font-heading text-sm font-semibold text-foreground">Время доставки</p>
+                          <p className="font-body text-xs text-muted-foreground">Сегодня при заказе до 15:00 · или в выбранную дату</p>
+                        </div>
+                      </div>
+                      <div className="flex items-start gap-3">
+                        <CreditCard className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                        <div>
+                          <p className="font-heading text-sm font-semibold text-foreground">Оплата</p>
+                          <p className="font-body text-xs text-muted-foreground">Наличные, карта, перевод · оплата при получении</p>
+                        </div>
+                      </div>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </motion.div>
           </div>
+
+          {/* Reviews Section */}
+          <section className="mt-16">
+            <h2 className="mb-6 font-heading text-2xl font-bold text-foreground">
+              Отзывы {productReviews.length > 0 && <span className="text-muted-foreground text-lg">({productReviews.length})</span>}
+            </h2>
+
+            {productReviews.length === 0 ? (
+              <p className="rounded-xl border border-border p-8 text-center font-body text-muted-foreground">
+                Пока нет отзывов на этот товар. Будьте первым!
+              </p>
+            ) : (
+              <div className="grid gap-4 sm:grid-cols-2">
+                {productReviews.map((review) => (
+                  <motion.div
+                    key={review.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    className="rounded-xl border border-border p-5 space-y-3"
+                  >
+                    <div className="flex items-center justify-between">
+                      <p className="font-heading text-sm font-semibold text-foreground">{review.author}</p>
+                      <p className="font-body text-xs text-muted-foreground">{review.date}</p>
+                    </div>
+                    <div className="flex gap-0.5">
+                      {Array.from({ length: 5 }).map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`h-4 w-4 ${i < review.rating ? "fill-primary text-primary" : "text-muted-foreground/30"}`}
+                        />
+                      ))}
+                    </div>
+                    <p className="font-body text-sm text-muted-foreground leading-relaxed">{review.text}</p>
+                  </motion.div>
+                ))}
+              </div>
+            )}
+          </section>
         </div>
       </section>
     </Layout>
