@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Truck, Leaf, Heart, Gift, Sparkles, Percent, Star, Palette } from "lucide-react";
@@ -131,6 +132,11 @@ const Index = () => {
             <p className="font-body text-lg text-muted-foreground leading-relaxed">
               Закажите букет ко дню рождения и получите скидку {BIRTHDAY_DISCOUNT}% на любой букет из нашей коллекции.
             </p>
+            <Link to="/birthday">
+              <Button size="lg" className="mt-2 gap-2">
+                <Gift className="h-5 w-5" /> Выбрать букет со скидкой
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </section>
