@@ -1,5 +1,5 @@
 import { useParams, Link } from "react-router-dom";
-import { ArrowLeft, ShoppingBag, Minus, Plus } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Minus, Plus, Truck, CreditCard, Clock } from "lucide-react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
 import { useStore } from "@/context/StoreContext";
@@ -92,6 +92,31 @@ const ProductDetail = () => {
                 >
                   <ShoppingBag className="h-4 w-4" /> В корзину
                 </button>
+              </div>
+
+              {/* Delivery & Payment Info */}
+              <div className="space-y-3 rounded-xl border border-border bg-accent/30 p-5">
+                <div className="flex items-start gap-3">
+                  <Truck className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="font-heading text-sm font-semibold text-foreground">Доставка по Москве</p>
+                    <p className="font-body text-xs text-muted-foreground">Бесплатно от 5 000 ₽ · от 500 ₽ при заказе меньше</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <Clock className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="font-heading text-sm font-semibold text-foreground">Время доставки</p>
+                    <p className="font-body text-xs text-muted-foreground">Сегодня при заказе до 15:00 · или в выбранную дату</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <CreditCard className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+                  <div>
+                    <p className="font-heading text-sm font-semibold text-foreground">Оплата</p>
+                    <p className="font-body text-xs text-muted-foreground">Наличные, карта, перевод · оплата при получении</p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
