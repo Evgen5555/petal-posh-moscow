@@ -21,7 +21,7 @@ const ProductCard = ({ product, discount }: { product: Product; discount?: numbe
       viewport={{ once: true }}
       transition={{ duration: 0.5 }}
     >
-      <Link to={`/product/${product.id}`} className="group block">
+      <Link to={`/product/${product.id}${discount ? `?discount=${discount}` : ""}`} className="group block">
         <div className="relative overflow-hidden rounded-2xl bg-accent/30">
           <img
             src={product.image}
