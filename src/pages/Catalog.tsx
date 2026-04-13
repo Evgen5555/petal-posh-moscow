@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Layout from "@/components/Layout";
 import ProductCard from "@/components/ProductCard";
 import { useStore } from "@/context/StoreContext";
@@ -6,7 +7,13 @@ import { categories } from "@/data/products";
 
 const Catalog = () => {
   const { products } = useStore();
-  const [active, setActive] = useState("Все");
+  const [searchParams] = useSearchParams();
+  const catParam = searchParams.get("cat");
+  const [active, setActive] = useState(catParam && categories.includes(catParam) ? catParam : "Все");
+
+  useEffect(() => {
+    if (catParam && categories.includes(catParam)) setActive(catParam);
+  }, [catParam]);
 
   const filtered = active === "Все" ? products : products.filter((p) => p.category === active);
 
