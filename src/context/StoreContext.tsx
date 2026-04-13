@@ -22,6 +22,7 @@ interface StoreContextType {
   deleteProduct: (id: string) => void;
   addOrder: (o: { items: { product: Product; quantity: number }[]; total: number; customerName: string; customerPhone: string; customerAddress: string; comment: string }) => Promise<void>;
   updateOrderStatus: (id: string, status: Order["status"]) => void;
+  deleteOrder: (id: string) => Promise<void>;
   loadOrders: () => void;
 }
 
