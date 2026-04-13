@@ -80,4 +80,7 @@
   .bg-gradient-soft {
     background: linear-gradient(180deg, hsl(30 33% 97%) 0%, hsl(345 50% 96%) 100%);
   }
+  .text-rose-heading {
+    color: hsl(345 35% 45%);
+  }
 }
