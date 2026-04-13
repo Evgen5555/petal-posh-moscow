@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Truck, Leaf, Heart, Gift, Sparkles, Percent, Star, Palette } from "lucide-react";
@@ -6,6 +7,7 @@ import heroImage from "@/assets/hero-flowers.jpg";
 import birthdayPromo from "@/assets/birthday-promo.jpg";
 import Layout from "@/components/Layout";
 import ProductCard from "@/components/ProductCard";
+import BouquetBuilder from "@/components/BouquetBuilder";
 import { useStore } from "@/context/StoreContext";
 import { reviews } from "@/data/reviews";
 
@@ -19,6 +21,7 @@ const BIRTHDAY_DISCOUNT = 15;
 
 const Index = () => {
   const { products } = useStore();
+  const [builderOpen, setBuilderOpen] = useState(false);
   const featured = products.filter((p) => p.inStock).slice(0, 4);
   const bouquets = products.filter((p) => p.category === "Букеты" || p.category === "Розы").slice(0, 4);
 
@@ -233,15 +236,17 @@ const Index = () => {
             <p className="font-body text-lg text-muted-foreground leading-relaxed">
               Соберём по вашему желанию — выберите цветы, оттенки и стиль, а наши флористы создадут уникальную композицию специально для вас.
             </p>
-            <Link
-              to="/catalog"
+            <button
+              onClick={() => setBuilderOpen(true)}
               className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 font-body text-sm font-semibold text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/25"
             >
               Собрать букет <ArrowRight className="h-4 w-4" />
-            </Link>
+            </button>
           </motion.div>
         </div>
       </section>
+
+      <BouquetBuilder open={builderOpen} onOpenChange={setBuilderOpen} />
     </Layout>
   );
 };
