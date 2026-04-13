@@ -12,24 +12,33 @@ const Cart = () => {
   const [showForm, setShowForm] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", address: "", comment: "" });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!form.name.trim() || !form.phone.trim() || !form.address.trim()) {
       toast.error("Пожалуйста, заполните обязательные поля");
       return;
     }
-    addOrder({
-      items: items.map((i) => ({ product: i.product, quantity: i.quantity })),
-      total: totalPrice,
-      customerName: form.name,
-      customerPhone: form.phone,
-      customerAddress: form.address,
-      comment: form.comment,
-    });
-    clearCart();
-    setShowForm(false);
-    setForm({ name: "", phone: "", address: "", comment: "" });
-    toast.success("Заказ оформлен! Мы свяжемся с вами в ближайшее время.");
+    setSubmitting(true);
+    try {
+      await addOrder({
+        items: items.map((i) => ({ product: i.product, quantity: i.quantity })),
+        total: totalPrice,
+        customerName: form.name,
+        customerPhone: form.phone,
+        customerAddress: form.address,
+        comment: form.comment,
+      });
+      clearCart();
+      setShowForm(false);
+      setForm({ name: "", phone: "", address: "", comment: "" });
+      toast.success("Заказ оформлен! Мы свяжемся с вами в ближайшее время.");
+    } catch {
+      toast.error("Ошибка при оформлении заказа. Попробуйте ещё раз.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   if (items.length === 0 && !showForm) {
