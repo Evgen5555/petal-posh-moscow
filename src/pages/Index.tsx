@@ -156,12 +156,6 @@ const Index = () => {
               </motion.div>
             ))}
           </div>
-
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {bouquets.map((p) => (
-              <ProductCard key={p.id} product={p} />
-            ))}
-          </div>
         </div>
       </section>
 
@@ -170,9 +164,6 @@ const Index = () => {
         <div className="container">
           <div className="mb-10 text-center">
             <h2 className="font-heading text-3xl font-bold text-foreground md:text-4xl">Отзывы наших клиентов</h2>
-            <p className="mt-2 font-body text-muted-foreground">
-              Средний рейтинг: <span className="font-semibold text-primary">{(reviews.reduce((s, r) => s + r.rating, 0) / reviews.length).toFixed(1)}</span> из 5
-            </p>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {reviews.slice(0, 6).map((review, i) => {
