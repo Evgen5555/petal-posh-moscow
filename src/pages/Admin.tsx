@@ -119,26 +119,26 @@ const Admin = () => {
           {tab === "orders" && (
             <div className="space-y-4">
               {/* Filters */}
-              <div className="flex flex-col gap-3 sm:flex-row">
-                <div className="relative flex-1">
-                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-                  <input
-                    placeholder="Поиск по имени, телефону, товару..."
-                    value={orderSearch}
-                    onChange={(e) => setOrderSearch(e.target.value)}
-                    className="w-full rounded-lg border border-input bg-background pl-9 pr-4 py-2 font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
-                  />
-                </div>
+              <div className="flex flex-wrap gap-2">
                 <select
                   value={statusFilter}
                   onChange={(e) => setStatusFilter(e.target.value as any)}
-                  className="rounded-lg border border-input bg-background px-3 py-2 font-body text-sm"
+                  className="rounded-full border border-input bg-background px-4 py-1.5 font-body text-sm"
                 >
                   <option value="all">Все статусы</option>
                   <option value="new">Новые</option>
                   <option value="processing">В работе</option>
                   <option value="delivered">Доставлены</option>
                 </select>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <input
+                    placeholder="Поиск..."
+                    value={orderSearch}
+                    onChange={(e) => setOrderSearch(e.target.value)}
+                    className="rounded-full border border-input bg-background pl-9 pr-4 py-1.5 font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  />
+                </div>
               </div>
 
               {filteredOrders.length === 0 ? (
@@ -146,54 +146,61 @@ const Admin = () => {
                   {orders.length === 0 ? "Заявок пока нет" : "Ничего не найдено"}
                 </p>
               ) : (
-                filteredOrders.map((o) => (
-                  <div key={o.id} className="rounded-xl border border-border bg-card p-4 sm:p-5">
-                    <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-4">
-                      <div>
-                        <div className="flex items-center gap-3">
-                          <h3 className="font-heading text-base font-semibold text-foreground">Заказ #{o.id.slice(-6)}</h3>
-                          <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${statusColors[o.status]}`}>
-                            {statusLabels[o.status]}
-                          </span>
-                        </div>
-                        <p className="mt-1 font-body text-xs text-muted-foreground">{o.date}</p>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <select
-                          value={o.status}
-                          onChange={(e) => updateOrderStatus(o.id, e.target.value as Order["status"])}
-                          className="rounded-lg border border-input bg-background px-3 py-1.5 font-body text-sm"
-                        >
-                          <option value="new">Новый</option>
-                          <option value="processing">В работе</option>
-                          <option value="delivered">Доставлен</option>
-                        </select>
-                        <button
-                          onClick={() => handleDeleteOrder(o.id)}
-                          className="rounded-lg border border-border p-1.5 text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
-                          title="Удалить заказ"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="mt-3 space-y-1 font-body text-sm text-muted-foreground">
-                      <p>👤 {o.customerName} · 📞 {o.customerPhone}</p>
-                      <p>📍 {o.customerAddress}</p>
-                      {o.comment && <p>💬 {o.comment}</p>}
-                    </div>
-                    <div className="mt-3 border-t border-border pt-3">
-                      {o.items.map((item, idx) => (
-                        <p key={idx} className="font-body text-sm text-foreground">
-                          {item.product_name} × {item.quantity} — {(item.price * item.quantity).toLocaleString("ru-RU")} ₽
-                        </p>
+                <div className="overflow-x-auto rounded-xl border border-border bg-card">
+                  <table className="w-full min-w-[800px]">
+                    <thead>
+                      <tr className="border-b border-border">
+                        <th className="px-4 py-3 text-left font-body text-xs font-medium text-muted-foreground">Дата</th>
+                        <th className="px-4 py-3 text-left font-body text-xs font-medium text-muted-foreground">Имя</th>
+                        <th className="px-4 py-3 text-left font-body text-xs font-medium text-muted-foreground">Контакт</th>
+                        <th className="px-4 py-3 text-left font-body text-xs font-medium text-muted-foreground">Товары</th>
+                        <th className="px-4 py-3 text-left font-body text-xs font-medium text-muted-foreground">Комментарий</th>
+                        <th className="px-4 py-3 text-left font-body text-xs font-medium text-muted-foreground">Статус</th>
+                        <th className="px-4 py-3 text-right font-body text-xs font-medium text-muted-foreground"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredOrders.map((o) => (
+                        <tr key={o.id} className="border-b border-border last:border-0 hover:bg-accent/30 transition-colors">
+                          <td className="px-4 py-3 font-body text-sm text-muted-foreground whitespace-nowrap">{o.date}</td>
+                          <td className="px-4 py-3 font-body text-sm font-semibold text-foreground">{o.customerName}</td>
+                          <td className="px-4 py-3 font-body text-sm text-foreground">{o.customerPhone}</td>
+                          <td className="px-4 py-3 font-body text-sm text-foreground">
+                            {o.items.map((i) => i.product_name).join(", ")}
+                          </td>
+                          <td className="px-4 py-3 font-body text-sm text-muted-foreground max-w-[200px] truncate">
+                            {o.comment || "—"}
+                          </td>
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-2">
+                              <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium whitespace-nowrap ${statusColors[o.status]}`}>
+                                {statusLabels[o.status]}
+                              </span>
+                              <select
+                                value={o.status}
+                                onChange={(e) => updateOrderStatus(o.id, e.target.value as Order["status"])}
+                                className="rounded-lg border border-input bg-background px-2 py-1 font-body text-xs"
+                              >
+                                <option value="new">Новый</option>
+                                <option value="processing">В работе</option>
+                                <option value="delivered">Доставлен</option>
+                              </select>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            <button
+                              onClick={() => handleDeleteOrder(o.id)}
+                              className="rounded-lg p-1.5 text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+                              title="Удалить заказ"
+                            >
+                              <Trash2 className="h-4 w-4" />
+                            </button>
+                          </td>
+                        </tr>
                       ))}
-                      <p className="mt-2 font-heading text-base font-bold text-primary">
-                        Итого: {o.total.toLocaleString("ru-RU")} ₽
-                      </p>
-                    </div>
-                  </div>
-                ))
+                    </tbody>
+                  </table>
+                </div>
               )}
             </div>
           )}
