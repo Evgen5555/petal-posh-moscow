@@ -11,9 +11,9 @@ const Header = () => {
   const navLinks = [
     { to: "/", label: "Главная" },
     { to: "/catalog", label: "Каталог" },
-    { to: "/birthday", label: "Акция" },
+    { to: "/#promo", label: "Акция" },
     { to: "/catalog?cat=Упаковка", label: "Упаковка" },
-    { to: "/reviews", label: "Отзывы" },
+    { to: "/#reviews", label: "Отзывы" },
     { to: "/delivery", label: "Доставка" },
   ];
 
