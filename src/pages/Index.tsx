@@ -140,7 +140,7 @@ const Index = () => {
         <div className="container">
           <div className="mb-10 grid gap-6 sm:grid-cols-3">
             {[
-              { icon: Gift, title: "Выберите букет", desc: "Выберите любой букет из коллекции ниже" },
+              { icon: Gift, title: "Выберите букет", desc: "Выберите любой букет из коллекции " },
               { icon: Percent, title: "Скидка автоматически", desc: `Скидка ${BIRTHDAY_DISCOUNT}% применится при оформлении` },
               { icon: Sparkles, title: "Радуйте близких!", desc: "Мы доставим свежие цветы в лучшем виде" },
             ].map((step, i) => (
