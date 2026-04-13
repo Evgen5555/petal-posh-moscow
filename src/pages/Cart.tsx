@@ -65,14 +65,22 @@ const Cart = () => {
           <h1 className="mb-8 font-heading text-3xl font-bold text-foreground">Корзина</h1>
 
           <div className="space-y-4">
-            {items.map(({ product, quantity }) => (
+            {items.map(({ product, quantity, discount }) => {
+              const itemPrice = discount ? Math.round(product.price * (1 - discount / 100)) : product.price;
+              return (
               <div key={product.id} className="flex items-center gap-4 rounded-xl border border-border bg-card p-4">
                 <img src={product.image} alt={product.name} className="h-20 w-20 rounded-lg object-cover" />
                 <div className="flex-1">
                   <h3 className="font-heading text-sm font-semibold text-foreground">{product.name}</h3>
-                  <p className="font-body text-sm text-primary font-semibold">
-                    {product.price.toLocaleString("ru-RU")} ₽
-                  </p>
+                  {discount ? (
+                    <div className="flex items-center gap-2">
+                      <p className="font-body text-xs text-muted-foreground line-through">{product.price.toLocaleString("ru-RU")} ₽</p>
+                      <p className="font-body text-sm text-primary font-semibold">{itemPrice.toLocaleString("ru-RU")} ₽</p>
+                      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">-{discount}%</span>
+                    </div>
+                  ) : (
+                    <p className="font-body text-sm text-primary font-semibold">{product.price.toLocaleString("ru-RU")} ₽</p>
+                  )}
                 </div>
                 <div className="flex items-center gap-2">
                   <button onClick={() => updateQuantity(product.id, quantity - 1)} className="rounded-full border border-border p-1 hover:bg-accent">
@@ -87,7 +95,8 @@ const Cart = () => {
                   <Trash2 className="h-4 w-4" />
                 </button>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           <div className="mt-6 flex items-center justify-between rounded-xl bg-accent/50 p-4">

@@ -5,13 +5,13 @@ import type { Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { toast } from "sonner";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product, discount }: { product: Product; discount?: number }) => {
   const { addItem } = useCart();
 
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault();
-    addItem(product);
-    toast.success(`«${product.name}» добавлен в корзину`);
+    addItem(product, discount);
+    toast.success(`«${product.name}» добавлен в корзину${discount ? ` со скидкой ${discount}%` : ""}`);
   };
 
   return (
@@ -40,9 +40,20 @@ const ProductCard = ({ product }: { product: Product }) => {
         </div>
         <div className="mt-3 space-y-1">
           <h3 className="font-heading text-base font-medium text-foreground">{product.name}</h3>
-          <p className="font-body text-lg font-semibold text-primary">
-            {product.price.toLocaleString("ru-RU")} ₽
-          </p>
+          {discount ? (
+            <div className="flex items-center gap-2">
+              <p className="font-body text-sm text-muted-foreground line-through">
+                {product.price.toLocaleString("ru-RU")} ₽
+              </p>
+              <p className="font-body text-lg font-semibold text-primary">
+                {Math.round(product.price * (1 - discount / 100)).toLocaleString("ru-RU")} ₽
+              </p>
+            </div>
+          ) : (
+            <p className="font-body text-lg font-semibold text-primary">
+              {product.price.toLocaleString("ru-RU")} ₽
+            </p>
+          )}
         </div>
       </Link>
     </motion.div>
