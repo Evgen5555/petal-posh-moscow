@@ -131,6 +131,11 @@ const Index = () => {
             <p className="font-body text-lg text-muted-foreground leading-relaxed">
               Закажите букет ко дню рождения и получите скидку {BIRTHDAY_DISCOUNT}% на любой букет из нашей коллекции.
             </p>
+            <Link to="/birthday">
+              <Button size="lg" className="mt-2 gap-2">
+                <Gift className="h-5 w-5" /> Выбрать букет со скидкой
+              </Button>
+            </Link>
           </motion.div>
         </div>
       </section>
