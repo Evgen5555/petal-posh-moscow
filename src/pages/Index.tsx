@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowRight, Truck, Leaf, Heart, Gift, Sparkles, Percent, Star } from "lucide-react";
+import { ArrowRight, Truck, Leaf, Heart, Gift, Sparkles, Percent, Star, Palette } from "lucide-react";
+import customBouquet from "@/assets/custom-bouquet.jpg";
 import heroImage from "@/assets/hero-flowers.jpg";
 import birthdayPromo from "@/assets/birthday-promo.jpg";
 import Layout from "@/components/Layout";
