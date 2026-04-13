@@ -35,26 +35,29 @@ const Index = () => {
           alt="Букет пионов и роз"
           className="absolute inset-0 h-full w-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent" />
-        <div className="container relative z-10 flex min-h-screen flex-col items-center justify-end pb-20 text-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-transparent" />
+        <div className="container relative z-10 flex min-h-screen flex-col justify-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6"
+            className="max-w-lg space-y-5"
           >
+            <p className="font-body text-sm font-semibold uppercase tracking-widest text-primary">
+              Доставка по Москве
+            </p>
             <h1 className="font-heading text-4xl font-bold leading-tight text-foreground md:text-6xl lg:text-7xl">
               Цветы, которые<br />
               <span className="text-gradient-rose">говорят за вас</span>
             </h1>
-            <p className="mx-auto max-w-md font-body text-lg text-muted-foreground">
+            <p className="max-w-md font-body text-lg text-muted-foreground">
               Авторские букеты с доставкой по Москве. Свежесть, стиль и&nbsp;нежность в каждом лепестке.
             </p>
             <Link
               to="/catalog"
               className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 font-body text-sm font-semibold text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/25"
             >
-              Выбрать букет <ArrowRight className="h-4 w-4" />
+              Выбрать букет
             </Link>
           </motion.div>
         </div>
