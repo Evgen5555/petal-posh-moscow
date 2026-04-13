@@ -12,6 +12,8 @@ import Cart from "./pages/Cart";
 import Delivery from "./pages/Delivery";
 import Privacy from "./pages/Privacy";
 import Offer from "./pages/Offer";
+import Reviews from "./pages/Reviews";
+import BirthdayPromo from "./pages/BirthdayPromo";
 import Admin from "./pages/Admin";
 import AdminLogin from "./pages/AdminLogin";
 import NotFound from "./pages/NotFound";
