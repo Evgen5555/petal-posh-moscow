@@ -74,7 +74,7 @@ const BirthdayPromo = () => {
           <h2 className="mb-8 font-heading text-2xl font-bold text-foreground">Выберите букет для подарка</h2>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {bouquets.map((p) => (
-              <ProductCard key={p.id} product={p} />
+              <ProductCard key={p.id} product={p} discount={BIRTHDAY_DISCOUNT} />
             ))}
           </div>
         </div>
