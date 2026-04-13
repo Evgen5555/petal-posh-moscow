@@ -21,7 +21,7 @@ import seasonal4 from "@/assets/seasonal-4.jpg";
 import packaging1 from "@/assets/packaging-1.jpg";
 import packaging2 from "@/assets/packaging-2.jpg";
 import packaging3 from "@/assets/packaging-3.jpg";
-import packaging4 from "@/assets/packaging-4.jpg";
+
 import single1 from "@/assets/single-1.jpg";
 import single2 from "@/assets/single-2.jpg";
 import single3 from "@/assets/single-3.jpg";
@@ -382,16 +382,6 @@ export const initialProducts: Product[] = [
     category: "Упаковка",
     description: "Уютная плетёная корзина — превращает букет в полноценный подарок.",
     composition: "Корзина из ивы, ручка, подкладка, целлофан",
-    inStock: true,
-  },
-  {
-    id: "28",
-    name: "Деревянный ящик",
-    price: 800,
-    image: packaging4,
-    category: "Упаковка",
-    description: "Рустикальный деревянный ящик — идеально для полевых и эко-букетов.",
-    composition: "Деревянный ящик, стружка, внутренняя плёнка",
     inStock: true,
   },
 ];
