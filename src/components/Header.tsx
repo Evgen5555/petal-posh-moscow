@@ -1,21 +1,39 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { ShoppingBag, Menu, X } from "lucide-react";
 import { useCart } from "@/context/CartContext";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Header = () => {
   const { totalItems } = useCart();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const navLinks = [
     { to: "/", label: "Главная" },
     { to: "/catalog", label: "Каталог" },
-    { to: "/birthday", label: "Акция" },
+    { to: "/#promo", label: "Акция" },
     { to: "/catalog?cat=Упаковка", label: "Упаковка" },
-    { to: "/reviews", label: "Отзывы" },
+    { to: "/#reviews", label: "Отзывы" },
     { to: "/delivery", label: "Доставка" },
   ];
+
+  const handleClick = useCallback((e: React.MouseEvent, to: string) => {
+    if (to.startsWith("/#")) {
+      e.preventDefault();
+      const hash = to.slice(2);
+      if (location.pathname === "/") {
+        document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+      } else {
+        navigate("/");
+        setTimeout(() => {
+          document.getElementById(hash)?.scrollIntoView({ behavior: "smooth" });
+        }, 300);
+      }
+      setMobileOpen(false);
+    }
+  }, [location.pathname, navigate]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
@@ -30,6 +48,7 @@ const Header = () => {
             <Link
               key={l.to}
               to={l.to}
+              onClick={(e) => handleClick(e, l.to)}
               className="font-body text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
               {l.label}
@@ -67,7 +86,7 @@ const Header = () => {
                 <Link
                   key={l.to}
                   to={l.to}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={(e) => { handleClick(e, l.to); setMobileOpen(false); }}
                   className="font-body text-base text-foreground"
                 >
                   {l.label}
