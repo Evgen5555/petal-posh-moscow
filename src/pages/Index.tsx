@@ -29,14 +29,14 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero */}
-      <section className="relative min-h-screen overflow-hidden">
+      <section className="relative h-[75vh] min-h-[500px] overflow-hidden">
         <img
           src={heroImage}
           alt="Букет пионов и роз"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="absolute inset-0 h-full w-full object-cover object-right"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/80 via-background/40 to-transparent" />
-        <div className="container relative z-10 flex min-h-screen flex-col justify-center">
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
+        <div className="container relative z-10 flex h-full flex-col justify-center">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
