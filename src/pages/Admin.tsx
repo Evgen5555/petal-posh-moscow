@@ -109,9 +109,9 @@ const Admin = () => {
                       {o.comment && <p>💬 {o.comment}</p>}
                     </div>
                     <div className="mt-3 border-t border-border pt-3">
-                      {o.items.map((item) => (
-                        <p key={item.product.id} className="font-body text-sm text-foreground">
-                          {item.product.name} × {item.quantity} — {(item.product.price * item.quantity).toLocaleString("ru-RU")} ₽
+                      {o.items.map((item, idx) => (
+                        <p key={idx} className="font-body text-sm text-foreground">
+                          {item.product_name} × {item.quantity} — {(item.price * item.quantity).toLocaleString("ru-RU")} ₽
                         </p>
                       ))}
                       <p className="mt-2 font-heading text-base font-bold text-primary">
