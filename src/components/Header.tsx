@@ -15,7 +15,6 @@ const Header = () => {
     { to: "/catalog", label: "Каталог" },
     { to: "/#promo", label: "Акция" },
     { to: "/catalog?cat=Упаковка", label: "Упаковка" },
-    { to: "/#reviews", label: "Отзывы" },
     { to: "/delivery", label: "Доставка" },
   ];
 
