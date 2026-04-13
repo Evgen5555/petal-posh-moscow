@@ -22,7 +22,11 @@ const statusColors: Record<Order["status"], string> = {
 
 const Admin = () => {
   const { session, loading, signOut } = useAuth();
-  const { products, orders, addProduct, updateProduct, deleteProduct, updateOrderStatus } = useStore();
+  const { products, orders, addProduct, updateProduct, deleteProduct, updateOrderStatus, loadOrders } = useStore();
+
+  useEffect(() => {
+    if (session) loadOrders();
+  }, [session, loadOrders]);
   const [tab, setTab] = useState<"orders" | "products">("orders");
 
   if (loading) {
