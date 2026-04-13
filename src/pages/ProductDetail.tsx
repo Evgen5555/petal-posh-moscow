@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useSearchParams } from "react-router-dom";
 import { ArrowLeft, ShoppingBag, Minus, Plus, Truck, CreditCard, Clock, Star, Package } from "lucide-react";
 import { useState } from "react";
 import Layout from "@/components/Layout";
@@ -18,6 +18,8 @@ const packagingOptions = [
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const discount = searchParams.get("discount") ? Number(searchParams.get("discount")) : undefined;
   const { products } = useStore();
   const { addItem } = useCart();
   const product = products.find((p) => p.id === id);
@@ -42,8 +44,8 @@ const ProductDetail = () => {
   const pkgPrice = packagingOptions.find((p) => p.id === selectedPkg)?.price || 0;
 
   const handleAdd = () => {
-    for (let i = 0; i < qty; i++) addItem(product);
-    toast.success(`«${product.name}» (${qty} шт.) добавлен в корзину`);
+    for (let i = 0; i < qty; i++) addItem(product, discount);
+    toast.success(`«${product.name}» (${qty} шт.) добавлен в корзину${discount ? ` со скидкой ${discount}%` : ""}`);
   };
 
   return (
@@ -113,9 +115,21 @@ const ProductDetail = () => {
                 </div>
               </div>
 
-              <p className="font-heading text-3xl font-bold text-primary">
-                {(product.price + pkgPrice).toLocaleString("ru-RU")} ₽
-              </p>
+              {discount ? (
+                <div className="space-y-1">
+                  <p className="font-body text-lg text-muted-foreground line-through">
+                    {(product.price + pkgPrice).toLocaleString("ru-RU")} ₽
+                  </p>
+                  <p className="font-heading text-3xl font-bold text-primary">
+                    {Math.round((product.price + pkgPrice) * (1 - discount / 100)).toLocaleString("ru-RU")} ₽
+                    <span className="ml-2 rounded-full bg-primary/10 px-3 py-1 text-sm font-medium">-{discount}%</span>
+                  </p>
+                </div>
+              ) : (
+                <p className="font-heading text-3xl font-bold text-primary">
+                  {(product.price + pkgPrice).toLocaleString("ru-RU")} ₽
+                </p>
+              )}
 
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-3 rounded-full border border-border px-4 py-2">
