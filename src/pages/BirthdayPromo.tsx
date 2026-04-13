@@ -10,7 +10,8 @@ const BIRTHDAY_DISCOUNT = 15; // %
 const BirthdayPromo = () => {
   const { products } = useStore();
   // Show bouquets for birthday selection
-  const bouquets = products.filter((p) => p.category === "Букеты" || p.category === "Розы");
+  const excludeIds = ["7", "9"]; // Белая свадьба, Жёлтое солнце
+  const bouquets = products.filter((p) => (p.category === "Букеты" || p.category === "Розы") && !excludeIds.includes(p.id));
 
   return (
     <Layout>
