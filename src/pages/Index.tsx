@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowRight, Truck, Leaf, Heart, Gift, Sparkles, Percent, Star, Palette } from "lucide-react";
 import customBouquet from "@/assets/custom-bouquet.jpg";
-import heroImage from "@/assets/hero-flowers.jpg";
+import heroImage from "@/assets/hero-flowers.png";
 import birthdayPromo from "@/assets/birthday-promo.jpg";
 import Layout from "@/components/Layout";
 import ProductCard from "@/components/ProductCard";
@@ -29,11 +29,17 @@ const Index = () => {
   return (
     <Layout>
       {/* Hero */}
-      <section className="relative overflow-hidden bg-gradient-hero">
-        <div className="container grid min-h-[80vh] items-center gap-8 py-16 md:grid-cols-2">
+      <section className="relative min-h-screen overflow-hidden">
+        <img
+          src={heroImage}
+          alt="Букет пионов и роз"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/40 to-transparent" />
+        <div className="container relative z-10 flex min-h-screen flex-col items-center justify-end pb-20 text-center">
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="space-y-6"
           >
@@ -41,7 +47,7 @@ const Index = () => {
               Цветы, которые<br />
               <span className="text-gradient-rose">говорят за вас</span>
             </h1>
-            <p className="max-w-md font-body text-lg text-muted-foreground">
+            <p className="mx-auto max-w-md font-body text-lg text-muted-foreground">
               Авторские букеты с доставкой по Москве. Свежесть, стиль и&nbsp;нежность в каждом лепестке.
             </p>
             <Link
@@ -50,21 +56,6 @@ const Index = () => {
             >
               Выбрать букет <ArrowRight className="h-4 w-4" />
             </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex justify-center"
-          >
-            <img
-              src={heroImage}
-              alt="Букет пионов и роз"
-              width={1920}
-              height={1080}
-              className="w-full max-w-lg rounded-3xl object-cover shadow-2xl shadow-primary/10"
-            />
           </motion.div>
         </div>
       </section>
