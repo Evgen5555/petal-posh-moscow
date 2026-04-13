@@ -108,8 +108,14 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
   }, []);
 
+  const deleteOrder = useCallback(async (id: string) => {
+    await supabase.from("order_items").delete().eq("order_id", id);
+    await supabase.from("orders").delete().eq("id", id);
+    setOrders((prev) => prev.filter((o) => o.id !== id));
+  }, []);
+
   return (
-    <StoreContext.Provider value={{ products, orders, addProduct, updateProduct, deleteProduct, addOrder, updateOrderStatus, loadOrders }}>
+    <StoreContext.Provider value={{ products, orders, addProduct, updateProduct, deleteProduct, addOrder, updateOrderStatus, deleteOrder, loadOrders }}>
       {children}
     </StoreContext.Provider>
   );
