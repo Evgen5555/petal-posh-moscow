@@ -26,6 +26,11 @@ import single1 from "@/assets/single-1.jpg";
 import single2 from "@/assets/single-2.jpg";
 import single3 from "@/assets/single-3.jpg";
 import single4 from "@/assets/single-4.jpg";
+import singleWhiteRose from "@/assets/single-white-rose.jpg";
+import singlePinkRose from "@/assets/single-pink-rose.jpg";
+import singleYellowRose from "@/assets/single-yellow-rose.jpg";
+import singleOrchid from "@/assets/single-orchid.jpg";
+import singleLavender from "@/assets/single-lavender.jpg";
 
 export interface Product {
   id: string;
@@ -294,6 +299,58 @@ export const initialProducts: Product[] = [
     category: "Штучные",
     description: "Один пышный розовый пион — роскошь и нежность в одном цветке.",
     composition: "Пион розовый — 1 шт., крафт-упаковка",
+    inStock: true,
+  },
+  // Упаковка (4)
+  // --- Дополнительные штучные ---
+  {
+    id: "29",
+    name: "Белая роза",
+    price: 350,
+    image: singleWhiteRose,
+    category: "Штучные",
+    description: "Элегантная белая роза — символ чистоты и нежности.",
+    composition: "Роза белая — 1 шт.",
+    inStock: true,
+  },
+  {
+    id: "30",
+    name: "Розовая роза",
+    price: 350,
+    image: singlePinkRose,
+    category: "Штучные",
+    description: "Нежная розовая роза — воплощение романтики и женственности.",
+    composition: "Роза розовая — 1 шт.",
+    inStock: true,
+  },
+  {
+    id: "31",
+    name: "Жёлтая роза",
+    price: 350,
+    image: singleYellowRose,
+    category: "Штучные",
+    description: "Солнечная жёлтая роза — символ радости и дружбы.",
+    composition: "Роза жёлтая — 1 шт.",
+    inStock: true,
+  },
+  {
+    id: "32",
+    name: "Орхидея",
+    price: 600,
+    image: singleOrchid,
+    category: "Штучные",
+    description: "Изысканная орхидея фаленопсис — утончённый и стильный цветок.",
+    composition: "Орхидея — 1 шт.",
+    inStock: true,
+  },
+  {
+    id: "33",
+    name: "Веточка лаванды",
+    price: 150,
+    image: singleLavender,
+    category: "Штучные",
+    description: "Ароматная веточка лаванды — прованский шарм в одном стебле.",
+    composition: "Лаванда — 1 веточка",
     inStock: true,
   },
   // Упаковка (4)
