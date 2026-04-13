@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, Truck, Leaf, Heart, Gift, Sparkles, Percent, Star, Palette } from "lucide-react";
 import customBouquet from "@/assets/custom-bouquet.jpg";
 import heroImage from "@/assets/hero-flowers.png";
-import birthdayPromo from "@/assets/birthday-promo.jpg";
+import birthdayPromo from "@/assets/bouquet-5.jpg";
 import Layout from "@/components/Layout";
 import ProductCard from "@/components/ProductCard";
 import BouquetBuilder from "@/components/BouquetBuilder";
