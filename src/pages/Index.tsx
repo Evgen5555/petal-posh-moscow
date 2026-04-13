@@ -210,6 +210,38 @@ const Index = () => {
           </div>
         </div>
       </section>
+
+      {/* Custom Bouquet CTA */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={customBouquet} alt="Индивидуальный букет" width={1280} height={720} className="h-full w-full object-cover" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/75 to-background/30" />
+        </div>
+        <div className="container relative z-10 py-20 md:py-28">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="max-w-lg space-y-5"
+          >
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+              <Palette className="h-7 w-7 text-primary" />
+            </div>
+            <h2 className="font-heading text-3xl font-bold text-foreground md:text-5xl">
+              Нужен индивидуальный букет?
+            </h2>
+            <p className="font-body text-lg text-muted-foreground leading-relaxed">
+              Соберём по вашему желанию — выберите цветы, оттенки и стиль, а наши флористы создадут уникальную композицию специально для вас.
+            </p>
+            <Link
+              to="/catalog"
+              className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 font-body text-sm font-semibold text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/25"
+            >
+              Собрать букет <ArrowRight className="h-4 w-4" />
+            </Link>
+          </motion.div>
+        </div>
+      </section>
     </Layout>
   );
 };
