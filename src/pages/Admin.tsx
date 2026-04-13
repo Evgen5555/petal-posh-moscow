@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Navigate } from "react-router-dom";
 import Layout from "@/components/Layout";
 import { useStore } from "@/context/StoreContext";
 import type { Order } from "@/context/StoreContext";
 import { useAuth } from "@/hooks/useAuth";
-import { Package, ShoppingBag, LogOut } from "lucide-react";
+import { Package, ShoppingBag, LogOut, BarChart3, Search, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import ProductList from "@/components/admin/ProductList";
+import AdminAnalytics from "@/components/admin/AdminAnalytics";
 
 const statusLabels: Record<Order["status"], string> = {
   new: "Новый",
@@ -22,12 +23,47 @@ const statusColors: Record<Order["status"], string> = {
 
 const Admin = () => {
   const { session, loading, signOut } = useAuth();
-  const { products, orders, addProduct, updateProduct, deleteProduct, updateOrderStatus, loadOrders } = useStore();
+  const { products, orders, addProduct, updateProduct, deleteProduct, updateOrderStatus, deleteOrder, loadOrders } = useStore();
 
   useEffect(() => {
     if (session) loadOrders();
   }, [session, loadOrders]);
-  const [tab, setTab] = useState<"orders" | "products">("orders");
+
+  const [tab, setTab] = useState<"analytics" | "orders" | "products">("analytics");
+  const [orderSearch, setOrderSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState<"all" | Order["status"]>("all");
+  const [productSearch, setProductSearch] = useState("");
+
+  const filteredOrders = useMemo(() => {
+    return orders.filter((o) => {
+      if (statusFilter !== "all" && o.status !== statusFilter) return false;
+      if (orderSearch) {
+        const q = orderSearch.toLowerCase();
+        return (
+          o.customerName.toLowerCase().includes(q) ||
+          o.customerPhone.includes(q) ||
+          o.id.includes(q) ||
+          o.items.some((i) => i.product_name.toLowerCase().includes(q))
+        );
+      }
+      return true;
+    });
+  }, [orders, orderSearch, statusFilter]);
+
+  const filteredProducts = useMemo(() => {
+    if (!productSearch) return products;
+    const q = productSearch.toLowerCase();
+    return products.filter((p) => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+  }, [products, productSearch]);
+
+  const handleDeleteOrder = async (id: string) => {
+    try {
+      await deleteOrder(id);
+      toast.success("Заказ удалён");
+    } catch {
+      toast.error("Ошибка при удалении заказа");
+    }
+  };
 
   if (loading) {
     return (
@@ -57,31 +93,60 @@ const Admin = () => {
             </button>
           </div>
 
-          <div className="mb-6 flex gap-2">
-            <button
-              onClick={() => setTab("orders")}
-              className={`flex items-center gap-2 rounded-full px-4 py-2 font-body text-sm font-medium transition-all sm:px-5 ${
-                tab === "orders" ? "bg-primary text-primary-foreground" : "bg-accent text-accent-foreground"
-              }`}
-            >
-              <Package className="h-4 w-4" /> Заявки {orders.length > 0 && `(${orders.length})`}
-            </button>
-            <button
-              onClick={() => setTab("products")}
-              className={`flex items-center gap-2 rounded-full px-4 py-2 font-body text-sm font-medium transition-all sm:px-5 ${
-                tab === "products" ? "bg-primary text-primary-foreground" : "bg-accent text-accent-foreground"
-              }`}
-            >
-              <ShoppingBag className="h-4 w-4" /> Товары ({products.length})
-            </button>
+          {/* Tabs */}
+          <div className="mb-6 flex gap-2 overflow-x-auto">
+            {[
+              { key: "analytics" as const, icon: BarChart3, label: "Аналитика" },
+              { key: "orders" as const, icon: Package, label: `Заявки${orders.length > 0 ? ` (${orders.length})` : ""}` },
+              { key: "products" as const, icon: ShoppingBag, label: `Товары (${products.length})` },
+            ].map((t) => (
+              <button
+                key={t.key}
+                onClick={() => setTab(t.key)}
+                className={`flex items-center gap-2 whitespace-nowrap rounded-full px-4 py-2 font-body text-sm font-medium transition-all sm:px-5 ${
+                  tab === t.key ? "bg-primary text-primary-foreground" : "bg-accent text-accent-foreground"
+                }`}
+              >
+                <t.icon className="h-4 w-4" /> {t.label}
+              </button>
+            ))}
           </div>
 
+          {/* Analytics */}
+          {tab === "analytics" && <AdminAnalytics orders={orders} />}
+
+          {/* Orders */}
           {tab === "orders" && (
             <div className="space-y-4">
-              {orders.length === 0 ? (
-                <p className="py-20 text-center font-body text-muted-foreground">Заявок пока нет</p>
+              {/* Filters */}
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <div className="relative flex-1">
+                  <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <input
+                    placeholder="Поиск по имени, телефону, товару..."
+                    value={orderSearch}
+                    onChange={(e) => setOrderSearch(e.target.value)}
+                    className="w-full rounded-lg border border-input bg-background pl-9 pr-4 py-2 font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                  />
+                </div>
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value as any)}
+                  className="rounded-lg border border-input bg-background px-3 py-2 font-body text-sm"
+                >
+                  <option value="all">Все статусы</option>
+                  <option value="new">Новые</option>
+                  <option value="processing">В работе</option>
+                  <option value="delivered">Доставлены</option>
+                </select>
+              </div>
+
+              {filteredOrders.length === 0 ? (
+                <p className="py-20 text-center font-body text-muted-foreground">
+                  {orders.length === 0 ? "Заявок пока нет" : "Ничего не найдено"}
+                </p>
               ) : (
-                orders.map((o) => (
+                filteredOrders.map((o) => (
                   <div key={o.id} className="rounded-xl border border-border bg-card p-4 sm:p-5">
                     <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-start sm:justify-between sm:gap-4">
                       <div>
@@ -93,15 +158,24 @@ const Admin = () => {
                         </div>
                         <p className="mt-1 font-body text-xs text-muted-foreground">{o.date}</p>
                       </div>
-                      <select
-                        value={o.status}
-                        onChange={(e) => updateOrderStatus(o.id, e.target.value as Order["status"])}
-                        className="w-full rounded-lg border border-input bg-background px-3 py-1.5 font-body text-sm sm:w-auto"
-                      >
-                        <option value="new">Новый</option>
-                        <option value="processing">В работе</option>
-                        <option value="delivered">Доставлен</option>
-                      </select>
+                      <div className="flex items-center gap-2">
+                        <select
+                          value={o.status}
+                          onChange={(e) => updateOrderStatus(o.id, e.target.value as Order["status"])}
+                          className="rounded-lg border border-input bg-background px-3 py-1.5 font-body text-sm"
+                        >
+                          <option value="new">Новый</option>
+                          <option value="processing">В работе</option>
+                          <option value="delivered">Доставлен</option>
+                        </select>
+                        <button
+                          onClick={() => handleDeleteOrder(o.id)}
+                          className="rounded-lg border border-border p-1.5 text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+                          title="Удалить заказ"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
                     </div>
                     <div className="mt-3 space-y-1 font-body text-sm text-muted-foreground">
                       <p>👤 {o.customerName} · 📞 {o.customerPhone}</p>
@@ -124,13 +198,25 @@ const Admin = () => {
             </div>
           )}
 
+          {/* Products */}
           {tab === "products" && (
-            <ProductList
-              products={products}
-              addProduct={addProduct}
-              updateProduct={updateProduct}
-              deleteProduct={deleteProduct}
-            />
+            <div className="space-y-4">
+              <div className="relative">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <input
+                  placeholder="Поиск по названию или категории..."
+                  value={productSearch}
+                  onChange={(e) => setProductSearch(e.target.value)}
+                  className="w-full rounded-lg border border-input bg-background pl-9 pr-4 py-2 font-body text-sm focus:outline-none focus:ring-2 focus:ring-primary/30"
+                />
+              </div>
+              <ProductList
+                products={filteredProducts}
+                addProduct={addProduct}
+                updateProduct={updateProduct}
+                deleteProduct={deleteProduct}
+              />
+            </div>
           )}
         </div>
       </section>
