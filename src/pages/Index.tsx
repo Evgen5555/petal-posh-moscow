@@ -93,7 +93,7 @@ const Index = () => {
       <section className="py-20">
         <div className="container">
           <div className="mb-10 flex items-end justify-between">
-            <h2 className="font-heading text-3xl font-bold text-primary md:text-4xl">Популярные букеты</h2>
+            <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-4xl">Популярные букеты</h2>
             <Link to="/catalog" className="font-body text-sm font-medium text-primary hover:underline">
               Смотреть все →
             </Link>
@@ -122,7 +122,7 @@ const Index = () => {
             <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 font-body text-sm font-semibold text-primary">
               <Sparkles className="h-4 w-4" /> Специальное предложение
             </span>
-            <h2 className="font-heading text-4xl font-bold text-primary md:text-5xl">
+            <h2 className="font-heading text-4xl font-bold text-rose-heading md:text-5xl">
               День рождения? <br />Скидка {BIRTHDAY_DISCOUNT}%!
             </h2>
             <p className="font-body text-lg text-muted-foreground leading-relaxed">
@@ -164,7 +164,7 @@ const Index = () => {
       <section id="reviews" className="border-t border-border bg-accent/20 py-20">
         <div className="container">
           <div className="mb-10 text-center">
-            <h2 className="font-heading text-3xl font-bold text-primary md:text-4xl">Отзывы наших клиентов</h2>
+            <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-4xl">Отзывы наших клиентов</h2>
           </div>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {reviews.slice(0, 6).map((review, i) => {
@@ -227,7 +227,7 @@ const Index = () => {
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
               <Palette className="h-7 w-7 text-primary" />
             </div>
-            <h2 className="font-heading text-3xl font-bold text-primary md:text-5xl">
+            <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-5xl">
               Нужен индивидуальный букет?
             </h2>
             <p className="font-body text-lg text-muted-foreground leading-relaxed">
