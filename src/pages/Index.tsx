@@ -146,7 +146,7 @@ const Index = () => {
             {reviews.filter(r => r.visible).slice(0, 6).map((review, i) => {
               const product = products.find((p) => p.id === review.productId);
               return (
-                <motion.div key={review.id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="min-w-[280px] max-w-[320px] flex-shrink-0 snap-start rounded-2xl border bg-card p-5 space-y-3 shadow-lg border-rose-500">
+                <motion.div key={review.id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="min-w-[260px] max-w-[300px] flex-shrink-0 snap-start rounded-2xl border bg-card p-5 space-y-3 shadow-lg border-rose-500">
                   <div className="flex items-center justify-between">
                     <p className="font-heading text-sm font-semibold text-foreground">{review.author}</p>
                     <p className="font-body text-xs text-muted-foreground">{review.date}</p>
