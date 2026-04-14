@@ -48,7 +48,7 @@ const Index = () => {
             </p>
             <h1 className="font-heading text-4xl font-bold leading-tight text-foreground md:text-6xl lg:text-7xl">
               Цветы, которые<br />
-              <span className="text-gradient-rose font-semibold text-rose-900 bg-transparent">говорят за вас</span>
+              <span className="text-gradient-rose font-semibold bg-transparent text-rose-900">говорят за вас</span>
             </h1>
             <p className="max-w-md text-lg text-card-foreground font-serif font-semibold">
               Авторские букеты с доставкой по Москве. Свежесть, стиль и&nbsp;нежность в каждом лепестке.
