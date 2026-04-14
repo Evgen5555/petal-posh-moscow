@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { CartProvider } from "@/context/CartContext";
 import { StoreProvider } from "@/context/StoreContext";
+import { SiteContentProvider } from "@/context/SiteContentContext";
 import Index from "./pages/Index";
 import Catalog from "./pages/Catalog";
 import ProductDetail from "./pages/ProductDetail";
@@ -24,6 +25,7 @@ const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
       <StoreProvider>
+        <SiteContentProvider>
         <CartProvider>
           <Toaster />
           <Sonner />
@@ -44,6 +46,7 @@ const App = () => (
             </Routes>
           </BrowserRouter>
         </CartProvider>
+        </SiteContentProvider>
       </StoreProvider>
     </TooltipProvider>
   </QueryClientProvider>
