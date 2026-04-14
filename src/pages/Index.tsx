@@ -180,7 +180,7 @@ const Index = () => {
         </div>
         <div className="container relative z-10 py-20 md:py-28">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-lg space-y-5">
-            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-transparent">
               <Palette className="h-7 w-7 text-sage" />
             </div>
             <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-5xl">{get("custom_title")}</h2>
