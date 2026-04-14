@@ -165,7 +165,7 @@ const Index = () => {
 
       {/* Reviews */}
       <section id="reviews" className="border-t border-border bg-accent/20 py-20">
-        <div className="container">
+        <div className="container shadow-lg opacity-100">
           <div className="mb-10 text-center">
             <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-4xl">Отзывы наших клиентов</h2>
           </div>
@@ -179,7 +179,7 @@ const Index = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className="rounded-2xl border border-border bg-card p-5 space-y-3"
+                  className={`rounded-2xl border ${i === 2 ? "border-rose-500" : "border-border"} bg-card p-5 space-y-3 shadow-lg`}
                 >
                   <div className="flex items-center justify-between">
                     <p className="font-heading text-sm font-semibold text-foreground">{review.author}</p>
