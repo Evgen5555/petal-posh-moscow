@@ -164,7 +164,7 @@ const Index = () => {
       </section>
 
       {/* Reviews */}
-      <section id="reviews" className="border-t border-border bg-accent/20 py-20">
+      <section id="reviews" className="border-t bg-accent/20 py-20 border-[#fbefef]">
         <div className="container">
           <div className="mb-10 flex items-center justify-between">
             <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-4xl">Отзывы наших клиентов</h2>
@@ -205,7 +205,7 @@ const Index = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className={`min-w-[280px] max-w-[320px] flex-shrink-0 snap-start rounded-2xl border ${i === 2 ? "border-rose-500" : "border-border"} bg-card p-5 space-y-3 shadow-lg`}
+                  className={`min-w-[280px] max-w-[320px] flex-shrink-0 snap-start rounded-2xl border bg-card p-5 space-y-3 shadow-lg ${i === 2 ? "border-rose-50" : "border-rose-500"}`}
                 >
                   <div className="flex items-center justify-between">
                     <p className="font-heading text-sm font-semibold text-foreground">{review.author}</p>
