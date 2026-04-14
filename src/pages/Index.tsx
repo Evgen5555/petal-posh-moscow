@@ -75,7 +75,7 @@ const Index = () => {
               transition={{ delay: i * 0.15 }}
               className="flex items-start gap-4"
             >
-              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-accent text-accent-foreground">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-transparent text-sage">
                 <f.icon className="h-5 w-5" />
               </div>
               <div>
