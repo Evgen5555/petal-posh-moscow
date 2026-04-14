@@ -59,7 +59,7 @@ const Index = () => {
           {features.map((f, i) => (
             <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="flex items-start gap-4">
               <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-transparent text-sage">
-                <f.icon className="h-5 w-5" />
+                <f.icon className={`h-5 w-5 ${f.icon === Truck ? 'text-cyan-600' : ''}`} />
               </div>
               <div>
                 <h3 className="font-heading text-base font-semibold text-foreground">{f.title}</h3>
