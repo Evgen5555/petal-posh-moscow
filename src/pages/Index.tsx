@@ -50,7 +50,7 @@ const Index = () => {
               Цветы, которые<br />
               <span className="text-gradient-rose">говорят за вас</span>
             </h1>
-            <p className="max-w-md font-body text-lg text-muted-foreground">
+            <p className="max-w-md text-lg text-card-foreground font-serif font-semibold">
               Авторские букеты с доставкой по Москве. Свежесть, стиль и&nbsp;нежность в каждом лепестке.
             </p>
             <Link
