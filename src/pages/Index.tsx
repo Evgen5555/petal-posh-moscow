@@ -97,7 +97,7 @@ const Index = () => {
             <h2 className="font-heading text-4xl font-bold text-rose-heading md:text-5xl whitespace-pre-line">
               {get("promo_title")}
             </h2>
-            <p className="font-body text-lg text-muted-foreground leading-relaxed">{get("promo_desc")}</p>
+            <p className="text-lg leading-relaxed font-sans text-popover-foreground">{get("promo_desc")}</p>
             <Link to="/birthday">
               <Button size="lg" className="mt-2 gap-2">
                 <Gift className="h-5 w-5" /> {get("promo_cta")}
