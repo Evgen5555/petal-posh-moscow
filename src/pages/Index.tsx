@@ -43,7 +43,7 @@ const Index = () => {
             transition={{ duration: 0.8 }}
             className="max-w-lg space-y-5"
           >
-            <p className="font-body text-sm font-semibold uppercase tracking-widest text-primary">
+            <p className="font-body text-sm font-semibold uppercase tracking-widest text-rose-800 bg-rose-800">
               Доставка по Москве
             </p>
             <h1 className="font-heading text-4xl font-bold leading-tight text-foreground md:text-6xl lg:text-7xl">
