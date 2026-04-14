@@ -41,7 +41,7 @@ const Footer = () => {
             className="ml-2 text-muted-foreground/30 hover:text-muted-foreground/60 transition-colors"
             aria-label="Вход для администратора"
           >
-            ·
+            admin
           </Link>
         </div>
       </div>
