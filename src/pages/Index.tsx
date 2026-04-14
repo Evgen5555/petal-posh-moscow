@@ -165,11 +165,37 @@ const Index = () => {
 
       {/* Reviews */}
       <section id="reviews" className="border-t border-border bg-accent/20 py-20">
-        <div className="container shadow-lg opacity-100">
-          <div className="mb-10 text-center">
+        <div className="container">
+          <div className="mb-10 flex items-center justify-between">
             <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-4xl">Отзывы наших клиентов</h2>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => {
+                  const el = document.getElementById("reviews-track");
+                  if (el) el.scrollBy({ left: -320, behavior: "smooth" });
+                }}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-accent"
+                aria-label="Назад"
+              >
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button
+                onClick={() => {
+                  const el = document.getElementById("reviews-track");
+                  if (el) el.scrollBy({ left: 320, behavior: "smooth" });
+                }}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-accent"
+                aria-label="Вперёд"
+              >
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
           </div>
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          <div
+            id="reviews-track"
+            className="flex gap-5 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory scrollbar-hide"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
             {reviews.slice(0, 6).map((review, i) => {
               const product = products.find((p) => p.id === review.productId);
               return (
@@ -179,7 +205,7 @@ const Index = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
-                  className={`rounded-2xl border ${i === 2 ? "border-rose-500" : "border-border"} bg-card p-5 space-y-3 shadow-lg`}
+                  className={`min-w-[280px] max-w-[320px] flex-shrink-0 snap-start rounded-2xl border ${i === 2 ? "border-rose-500" : "border-border"} bg-card p-5 space-y-3 shadow-lg`}
                 >
                   <div className="flex items-center justify-between">
                     <p className="font-heading text-sm font-semibold text-foreground">{review.author}</p>
