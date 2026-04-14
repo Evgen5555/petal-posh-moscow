@@ -29,7 +29,7 @@ const ProductCard = ({ product, discount }: { product: Product; discount?: numbe
             loading="lazy"
             width={800}
             height={1000}
-            className="aspect-[4/5] w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            className="aspect-[4/5] w-full object-cover transition-transform duration-500 group-hover:scale-105 bg-background"
           />
           <button
             onClick={handleAdd}
