@@ -91,7 +91,7 @@ const Index = () => {
         </div>
         <div className="container relative z-10 py-20 md:py-28">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-lg space-y-4">
-            <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 font-body text-sm font-semibold text-primary">
+            <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 font-body text-sm font-semibold text-rose-800">
               <Sparkles className="h-4 w-4" /> {get("promo_badge")}
             </span>
             <h2 className="font-heading text-4xl font-bold text-rose-heading md:text-5xl whitespace-pre-line">
