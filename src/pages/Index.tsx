@@ -259,7 +259,7 @@ const Index = () => {
             <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-5xl">
               Нужен индивидуальный букет?
             </h2>
-            <p className="font-body text-lg text-muted-foreground leading-relaxed">
+            <p className="font-body text-lg leading-relaxed font-semibold text-rose-950">
               Соберём по вашему желанию — выберите цветы, оттенки и стиль, а наши флористы создадут уникальную композицию специально для вас.
             </p>
             <button
