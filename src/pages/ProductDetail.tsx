@@ -67,7 +67,7 @@ const ProductDetail = () => {
                 alt={product.name}
                 width={800}
                 height={1000}
-                className="aspect-[4/5] w-full object-cover"
+                className="aspect-[4/5] w-full object-cover shadow-lg"
               />
             </motion.div>
 
