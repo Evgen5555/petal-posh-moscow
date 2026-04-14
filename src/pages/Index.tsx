@@ -118,7 +118,7 @@ const Index = () => {
             ].map((step, i) => (
               <motion.div key={step.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="flex flex-col items-center gap-3 rounded-2xl border border-border p-6 text-center">
                 <div className="flex h-12 w-12 items-center justify-center rounded-full border bg-transparent border-transparent">
-                  <step.icon className="h-6 w-6 text-primary" />
+                  <step.icon className="h-6 w-6 text-sage" />
                 </div>
                 <h3 className="font-heading text-base font-semibold text-foreground">{step.title}</h3>
                 <p className="font-body text-sm text-muted-foreground">{step.desc}</p>
