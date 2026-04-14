@@ -4,10 +4,12 @@ import Layout from "@/components/Layout";
 import { useStore } from "@/context/StoreContext";
 import type { Order } from "@/context/StoreContext";
 import { useAuth } from "@/hooks/useAuth";
-import { Package, ShoppingBag, LogOut, BarChart3, Search, Trash2 } from "lucide-react";
+import { Package, ShoppingBag, LogOut, BarChart3, Search, Trash2, FileText, MessageSquare } from "lucide-react";
 import { toast } from "sonner";
 import ProductList from "@/components/admin/ProductList";
 import AdminAnalytics from "@/components/admin/AdminAnalytics";
+import AdminContentEditor from "@/components/admin/AdminContentEditor";
+import AdminReviews from "@/components/admin/AdminReviews";
 
 const statusLabels: Record<Order["status"], string> = {
   new: "Новый",
@@ -29,7 +31,7 @@ const Admin = () => {
     if (session) loadOrders();
   }, [session, loadOrders]);
 
-  const [tab, setTab] = useState<"analytics" | "orders" | "products">("analytics");
+  const [tab, setTab] = useState<"analytics" | "orders" | "products" | "content" | "reviews">("analytics");
   const [orderSearch, setOrderSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | Order["status"]>("all");
   const [productSearch, setProductSearch] = useState("");
@@ -99,6 +101,8 @@ const Admin = () => {
               { key: "analytics" as const, icon: BarChart3, label: "Аналитика" },
               { key: "orders" as const, icon: Package, label: `Заявки${orders.length > 0 ? ` (${orders.length})` : ""}` },
               { key: "products" as const, icon: ShoppingBag, label: `Товары (${products.length})` },
+              { key: "content" as const, icon: FileText, label: "Контент" },
+              { key: "reviews" as const, icon: MessageSquare, label: "Отзывы" },
             ].map((t) => (
               <button
                 key={t.key}
@@ -225,6 +229,12 @@ const Admin = () => {
               />
             </div>
           )}
+
+          {/* Content */}
+          {tab === "content" && <AdminContentEditor />}
+
+          {/* Reviews */}
+          {tab === "reviews" && <AdminReviews />}
         </div>
       </section>
     </Layout>
