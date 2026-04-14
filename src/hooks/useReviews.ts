@@ -61,7 +61,14 @@ export function useReviews(adminMode = false) {
   }, [load]);
 
   const updateReview = useCallback(async (id: string, updates: Partial<ReviewItem>) => {
-    const mapped: Record<string, unknown> = {};
+    const mapped: {
+      author?: string;
+      rating?: number;
+      date?: string;
+      text?: string;
+      product_id?: string | null;
+      visible?: boolean;
+    } = {};
     if (updates.author !== undefined) mapped.author = updates.author;
     if (updates.rating !== undefined) mapped.rating = updates.rating;
     if (updates.date !== undefined) mapped.date = updates.date;
