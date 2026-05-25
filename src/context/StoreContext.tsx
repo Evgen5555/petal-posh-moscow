@@ -78,29 +78,19 @@ export const StoreProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, []);
 
   const addOrder = useCallback(async (o: { items: { product: Product; quantity: number }[]; total: number; customerName: string; customerPhone: string; customerAddress: string; comment: string }) => {
-    const { data: order, error } = await supabase
-      .from("orders")
-      .insert({
-        customer_name: o.customerName,
-        customer_phone: o.customerPhone,
-        customer_address: o.customerAddress,
-        comment: o.comment,
-        total: o.total,
-      })
-      .select()
-      .single();
-
-    if (error || !order) throw error;
-
-    await supabase.from("order_items").insert(
-      o.items.map((i) => ({
-        order_id: order.id,
+    const { error } = await supabase.rpc("create_order", {
+      _customer_name: o.customerName,
+      _customer_phone: o.customerPhone,
+      _customer_address: o.customerAddress,
+      _comment: o.comment,
+      _items: o.items.map((i) => ({
         product_name: i.product.name,
         product_image: i.product.image,
         price: i.product.price,
         quantity: i.quantity,
-      }))
-    );
+      })),
+    });
+    if (error) throw error;
   }, []);
 
   const updateOrderStatus = useCallback(async (id: string, status: Order["status"]) => {
