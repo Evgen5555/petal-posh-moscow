@@ -1,0 +1,200 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ArrowRight, Truck, Leaf, Heart, Gift, Sparkles, Percent, Star, Palette, ChevronLeft, ChevronRight } from "lucide-react";
+import customBouquet from "@/assets/custom-bouquet.jpg";
+import heroImage from "@/assets/hero-flowers.png";
+import birthdayPromo from "@/assets/bouquet-5.jpg";
+import Layout from "@/components/Layout";
+import ProductCard from "@/components/ProductCard";
+import BouquetBuilder from "@/components/BouquetBuilder";
+import { useStore } from "@/context/StoreContext";
+import { useSiteContentContext } from "@/context/SiteContentContext";
+import { useReviews } from "@/hooks/useReviews";
+
+const featureIcons = [Leaf, Truck, Heart];
+
+const Index = () => {
+  const { products } = useStore();
+  const { get } = useSiteContentContext();
+  const { reviews } = useReviews();
+  const [builderOpen, setBuilderOpen] = useState(false);
+  const featured = products.filter((p) => p.inStock).slice(0, 4);
+
+  const features = [
+    { icon: featureIcons[0], title: get("feature_1_title"), desc: get("feature_1_desc") },
+    { icon: featureIcons[1], title: get("feature_2_title"), desc: get("feature_2_desc") },
+    { icon: featureIcons[2], title: get("feature_3_title"), desc: get("feature_3_desc") },
+  ];
+
+  return (
+    <Layout>
+      {/* Hero */}
+      <section className="relative h-[75vh] min-h-[500px] overflow-hidden">
+        <img src={heroImage} alt="Букет пионов и роз" className="absolute inset-0 h-full w-full object-cover object-right" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
+        <div className="container relative z-10 flex h-full flex-col justify-center">
+          <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="max-w-lg space-y-5">
+            <p className="font-body text-sm font-semibold uppercase tracking-widest text-rose-800 bg-transparent">
+              {get("hero_subtitle")}
+            </p>
+            <h1 className="font-heading text-4xl font-bold leading-tight text-foreground md:text-6xl lg:text-7xl">
+              {get("hero_title_1")}<br />
+              <span className="font-semibold" style={{ color: '#851837' }}>{get("hero_title_2")}</span>
+            </h1>
+            <p className="max-w-md text-lg text-card-foreground font-serif font-semibold">
+              {get("hero_description")}
+            </p>
+            <Link to="/catalog" className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 font-body text-sm font-semibold text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/25">
+              {get("hero_cta")}
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="border-b border-border bg-background py-16">
+        <div className="container grid gap-8 md:grid-cols-3">
+          {features.map((f, i) => (
+            <motion.div key={f.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }} className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-transparent text-sage">
+                <f.icon className={`h-5 w-5 ${f.icon === Truck ? 'text-cyan-600' : f.icon === Heart ? 'bg-rose-50 text-sage' : ''}`} />
+              </div>
+              <div>
+                <h3 className="font-heading text-base font-semibold text-foreground">{f.title}</h3>
+                <p className="mt-1 font-body text-sm text-muted-foreground">{f.desc}</p>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
+      {/* Popular */}
+      <section className="py-20">
+        <div className="container">
+          <div className="mb-10 flex items-end justify-between">
+            <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-4xl">{get("popular_title")}</h2>
+            <Link to="/catalog" className="font-body text-sm font-medium text-primary hover:underline">Смотреть все →</Link>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {featured.map((p) => <ProductCard key={p.id} product={p} />)}
+          </div>
+        </div>
+      </section>
+
+      {/* Birthday Promo */}
+      <section id="promo" className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={birthdayPromo} alt="Букеты на день рождения" width={1200} height={600} className="h-full w-full object-cover" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/70 to-transparent" />
+        </div>
+        <div className="container relative z-10 py-20 md:py-28">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-lg space-y-4">
+            <span className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1.5 font-body text-sm font-semibold text-rose-800">
+              <Sparkles className="h-4 w-4" /> {get("promo_badge")}
+            </span>
+            <h2 className="font-heading text-4xl font-bold text-rose-heading md:text-5xl whitespace-pre-line">
+              {get("promo_title")}
+            </h2>
+            <p className="text-lg leading-relaxed font-sans text-popover-foreground">{get("promo_desc")}</p>
+            <Link to="/birthday">
+              <Button size="lg" className="mt-2 gap-2">
+                <Gift className="h-5 w-5" /> {get("promo_cta")}
+              </Button>
+            </Link>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Promo steps */}
+      <section className="py-12">
+        <div className="container">
+          <div className="mb-10 grid gap-6 sm:grid-cols-3">
+            {[
+              { icon: Gift, title: "Выберите букет", desc: "Выберите любой букет из коллекции" },
+              { icon: Percent, title: "Скидка автоматически", desc: "Скидка 15% применится при оформлении" },
+              { icon: Sparkles, title: "Радуйте близких!", desc: "Мы доставим свежие цветы в лучшем виде" },
+            ].map((step, i) => (
+              <motion.div key={step.title} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="flex flex-col items-center gap-3 rounded-2xl border border-border p-6 text-center">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full border bg-transparent border-transparent">
+                  <step.icon className="h-6 w-6 text-sage" />
+                </div>
+                <h3 className="font-heading text-base font-semibold text-foreground">{step.title}</h3>
+                <p className="font-body text-sm text-muted-foreground">{step.desc}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Reviews */}
+      <section id="reviews" className="border-t bg-accent/20 py-20 border-[#fbefef]">
+        <div className="container">
+          <div className="mb-10 flex items-center justify-between">
+            <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-4xl">{get("reviews_title")}</h2>
+            <div className="flex items-center gap-2">
+              <button onClick={() => { const el = document.getElementById("reviews-track"); if (el) el.scrollBy({ left: -320, behavior: "smooth" }); }} className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-accent" aria-label="Назад">
+                <ChevronLeft className="h-5 w-5" />
+              </button>
+              <button onClick={() => { const el = document.getElementById("reviews-track"); if (el) el.scrollBy({ left: 320, behavior: "smooth" }); }} className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-foreground transition-colors hover:bg-accent" aria-label="Вперёд">
+                <ChevronRight className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+          <div id="reviews-track" className="flex gap-5 overflow-x-auto scroll-smooth pb-4 snap-x snap-mandatory scrollbar-hide" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+            {reviews.filter(r => r.visible).slice(0, 6).map((review, i) => {
+              const product = products.find((p) => p.id === review.productId);
+              return (
+                <motion.div key={review.id} initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} className="min-w-[260px] max-w-[300px] flex-shrink-0 snap-start rounded-2xl border bg-card p-5 space-y-3 shadow-lg border-transparent">
+                  <div className="flex items-center justify-between">
+                    <p className="font-heading text-sm font-semibold text-foreground">{review.author}</p>
+                    <p className="font-body text-xs text-muted-foreground">{review.date}</p>
+                  </div>
+                  <div className="flex gap-0.5">
+                    {Array.from({ length: 5 }).map((_, j) => (
+                      <Star key={j} className={`h-4 w-4 ${j < review.rating ? "fill-primary text-primary" : "text-muted-foreground/30"}`} />
+                    ))}
+                  </div>
+                  <p className="font-body text-sm text-muted-foreground leading-relaxed">{review.text}</p>
+                  {product && (
+                    <Link to={`/product/${product.id}`} className="inline-flex items-center gap-2 rounded-full bg-accent px-3 py-1 font-body text-xs font-medium text-accent-foreground hover:bg-accent/80 transition-colors">
+                      {product.name}
+                    </Link>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
+          <div className="mt-8 text-center">
+            <Link to="/reviews" className="font-body text-sm font-medium text-primary hover:underline">Все отзывы →</Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Custom Bouquet CTA */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0">
+          <img src={customBouquet} alt="Индивидуальный букет" width={1280} height={720} className="h-full w-full object-cover" loading="lazy" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/75 to-background/30" />
+        </div>
+        <div className="container relative z-10 py-20 md:py-28">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="max-w-lg space-y-5">
+            <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-transparent">
+              <Palette className="h-7 w-7 text-sage" />
+            </div>
+            <h2 className="font-heading text-3xl font-bold text-rose-heading md:text-5xl">{get("custom_title")}</h2>
+            <p className="font-body text-lg leading-relaxed font-semibold text-rose-950">{get("custom_desc")}</p>
+            <button onClick={() => setBuilderOpen(true)} className="inline-flex items-center gap-2 rounded-full bg-primary px-8 py-3.5 font-body text-sm font-semibold text-primary-foreground transition-all hover:shadow-lg hover:shadow-primary/25">
+              {get("custom_cta")} <ArrowRight className="h-4 w-4" />
+            </button>
+          </motion.div>
+        </div>
+      </section>
+
+      <BouquetBuilder open={builderOpen} onOpenChange={setBuilderOpen} />
+    </Layout>
+  );
+};
+
+export default Index;
